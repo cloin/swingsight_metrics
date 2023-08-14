@@ -2,7 +2,7 @@
 
 SwingSight Metrics (`app.py`) is a Flask-based application designed to capture and analyze metrics from golf shots. It uses metrics such as angle of departure, velocity at departure, and then projects the yardage and landing zone of golf balls.
 
-![dashboard screenshot](image.png)
+![dashboard screenshot](static/swingsight.png)
 
 ## Table of Contents
 
@@ -47,6 +47,8 @@ SwingSight Metrics integrates with Datadog through a custom check. The custom ch
 - swingsight.projected_yardage
 - swingsight.projected_zone
 - swingsight.total_balls_hit
+
+![Datadog metrics screenshot](static/dd_metrics.png)
 
 To set up the Datadog check:
 

@@ -50,11 +50,13 @@ SwingSight Metrics integrates with Datadog through a custom check. The custom ch
 
 To set up the Datadog check:
 
-1. Place the `SwingSightCheck` in the `checks.d` directory of the Datadog Agent.
-2. Restart the Datadog Agent.
+1. Place the `datadog/checks.d/swingsight_check` in the `checks.d` directory of the Datadog Agent.
+2. Place `datadog/conf.d/swingsight_check.d` in the conf.d directory of the Datadog Agent.
+3. Restart the Datadog Agent.
 
 ## Endpoints
 
 - `POST /golfball-hit`: Accepts a JSON payload with `angle_of_departure` and `velocity_at_departure` to calculate and store the latest metrics.
+    - `curl -X POST http://127.0.0.1:5000/golfball-hit -H "Content-Type: application/json" -d '{"angle_of_departure": 45, "velocity_at_departure": 41}'`
 - `GET /swingsight`: Displays the latest metrics on a dashboard.
 - `GET /clear-data`: Clears all stored metrics.

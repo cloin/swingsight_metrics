@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwingSight Metrics</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="content-container"> <!-- SwingSight Metrics container -->
+        <h2>SwingSight Metrics</h2>
+        <ul>
+            <li>Angle of Departure: {{ angle_of_departure }}</li>
+            <li>Velocity at Departure: {{ velocity_at_departure }}</li>
+            <li>Projected Yardage: {{ projected_yardage }}</li>
+            <li>Projected Zone: {{ projected_zone }}</li>
+            <li>Total Balls Hit: {{ total_balls_hit }}</li>
+        </ul>
+        <p><center>Drive Insights, One Swing at a Time!<center></p>
+    </div>
+
+    <div class="flowchart-container"> <!-- Flowchart container -->
+        <div class="flowchart">
+            <div class="box" id="swingSight">SwingSight Metrics</div>
+            <div class="arrow" id="arrow1"></div>
+            <div class="box" id="dataDog">Datadog</div>
+            <div class="arrow" id="arrow2"></div>
+            <div class="box" id="ansible">Event-Driven Ansible</div>
+            <div class="arrow" id="arrow3"></div>
+            <div class="box" id="robot">Robotic Golf Ball Collector</div>
+        </div>
+    </div>
+
+    <script>
+        let swingSight = document.getElementById('swingSight');
+        let dataDog = document.getElementById('dataDog');
+        let ansible = document.getElementById('ansible');
+        let robot = document.getElementById('robot');
+
+        let arrow1 = document.getElementById('arrow1');
+        let arrow2 = document.getElementById('arrow2');
+        let arrow3 = document.getElementById('arrow3');
+
+        function playAnimation() {
+            swingSight.classList.add('active');
+            setTimeout(() => {
+                arrow1.classList.add('show');  // Make the arrow visible
+                dataDog.classList.add('active');
+            }, 1000);
+
+            setTimeout(() => {
+                arrow2.classList.add('show');  // Make the arrow visible
+                ansible.classList.add('active');
+            }, 2000);
+
+            setTimeout(() => {
+                arrow3.classList.add('show');  // Make the arrow visible
+                robot.classList.add('active');
+            }, 3000);
+
+            setTimeout(() => {
+                // Reset for demonstration purposes
+                swingSight.classList.remove('active');
+                dataDog.classList.remove('active');
+                ansible.classList.remove('active');
+                robot.classList.remove('active');
+                arrow1.classList.remove('show');
+                arrow2.classList.remove('show');
+                arrow3.classList.remove('show');
+
+                // Replay the animation after a short delay
+                setTimeout(playAnimation, 3000);
+            }, 4000);
+        }
+
+
+        // Start the animation
+        playAnimation();
+    </script>
+
+</body>
+</html>

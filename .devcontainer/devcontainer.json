@@ -1,0 +1,22 @@
+{
+    "name": "Fedora38",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "args": { }
+    },
+    "customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+                "files.associations": {
+                    "*.yml": "ansible",
+                    "*.yaml": "ansible"
+                }
+            },
+			"extensions": ["redhat.ansible"]
+		}
+},
+
+    "runArgs": [ ]
+}

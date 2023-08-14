@@ -1,0 +1,83 @@
+/* From the SwingSight Application */
+
+body {
+    background-color: #d4edda; /* Fairway green */
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* SwingSight Metrics container */
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    color: #155724; /* Dark green */
+    margin-bottom: 20px; /* Add some space below the heading */
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    background-color: #ffffff; /* White to represent a golf ball */
+    border-radius: 50%; /* Rounded to make it look like a golf ball */
+    width: 250px;   /* Set a fixed width */
+    height: 250px;  /* Set a fixed height to ensure a circle */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Center the list items vertically */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* A little shadow for depth */
+}
+
+li {
+    text-align: center;
+    margin: 5px 0;   /* Adjusted margin for list items */
+    color: #155724; /* Dark green */
+}
+
+/* From the Diagram Flowchart */
+
+.arrow {
+    width: 60px; /* Longer horizontal arrows */
+    height: 2px;
+    background: black;
+    margin: 0 20px;
+    opacity: 0; /* Initially invisible */
+    transition: opacity 1s;
+}
+
+.box {
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #ffffff; /* Golf ball white */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: background-color 1s;
+    margin: 0 10px; /* Some spacing between boxes */
+}
+
+.flowchart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.flowchart {
+    display: flex;  /* Items arranged in a row by default */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Align items vertically in the center */
+    flex-wrap: nowrap; /* Do not wrap items to the next line */
+    margin-top: 20px;
+}
+
+.active {
+    background-color: #a9dfbf;
+}

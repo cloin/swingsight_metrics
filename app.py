@@ -40,6 +40,9 @@ def golfball_hit():
 def dashboard():
     return render_template('swingsight_dashboard.html', **latest_metrics)
 
+@app.route('/metrics', methods=['GET'])
+def metrics():
+    return jsonify(latest_metrics)
 
 @app.route('/clear-data', methods=['GET'])
 def clear_data():

@@ -2,6 +2,8 @@
 
 SwingSight Metrics (`app.py`) is a Flask-based application designed to capture and analyze metrics from golf shots. It uses metrics such as angle of departure, velocity at departure, and then projects the yardage and landing zone of golf balls.
 
+![dashboard screenshot](image.png)
+
 ## Table of Contents
 
 - [Installation](#installation)

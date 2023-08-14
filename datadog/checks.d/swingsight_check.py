@@ -5,7 +5,7 @@ class SwingSightCheck(AgentCheck):
     def check(self, instance):
         try:
             # Make a GET request to the Flask application's dashboard endpoint
-            response = requests.get('http://localhost:5000/swingsight')
+            response = requests.get('http://localhost:5050/swingsight')
             response.raise_for_status()
             
             # Extract metrics from the Flask application's response

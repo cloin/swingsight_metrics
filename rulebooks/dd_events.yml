@@ -1,0 +1,35 @@
+---
+- name: Respond to Datadog events
+  hosts: all
+  sources:
+    - cloin.datadog.dd_events:
+        app_key: "{{ dd_app_key }}"
+        api_key: "{{ dd_api_key }}"
+        api_url: "{{ dd_events_endpoint }}"
+        interval: 10
+
+  rules:
+    - name: Catch Incidents events
+      condition: event.source == "Incidents"
+      action:
+        debug:
+
+    - name: TRIGGERED SwingSight monitor alerts
+      condition: event.source == "Monitor Alert" and event.title is search("*swingsight*",ignorecase=true) and event.title is search("Triggered",ignorecase=true)
+      action:
+        debug:
+
+    - name: RESOLVED SwingSight monitor alerts
+      condition: event.source == "Monitor Alert" and event.title is search("*swingsight*",ignorecase=true) and event.title is search("Recovered",ignorecase=true)
+      action:
+        debug:
+
+    - name: Catch Monitor Alert events
+      condition: event.source == "Monitor Alert"
+      action:
+        debug:
+    
+    - name: Catch all other events
+      condition: event.id is defined
+      action:
+        debug:

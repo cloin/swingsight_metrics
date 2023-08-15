@@ -15,12 +15,12 @@
         debug:
 
     - name: TRIGGERED SwingSight monitor alerts
-      condition: event.source == "Monitor Alert" and event.title is search("*swingsight*",ignorecase=true) and event.title is search("Triggered",ignorecase=true)
+      condition: event.source == "Monitor Alert" and event.title is search("swingsight",ignorecase=true) and event.title is search("Triggered",ignorecase=true)
       action:
         debug:
 
     - name: RESOLVED SwingSight monitor alerts
-      condition: event.source == "Monitor Alert" and event.title is search("*swingsight*",ignorecase=true) and event.title is search("Recovered",ignorecase=true)
+      condition: event.source == "Monitor Alert" and event.title is search("swingsight",ignorecase=true) and event.title is search("Recovered",ignorecase=true)
       action:
         debug:
 

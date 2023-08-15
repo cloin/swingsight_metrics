@@ -8,7 +8,10 @@ latest_metrics = {
     "velocity_at_departure": None,
     "projected_yardage": None,
     "projected_zone": None,
-    "total_balls_hit": 0
+    "total_balls_hit": 0,
+    "count_zone_1": 0,
+    "count_zone_2": 0,
+    "count_zone_3": 0
 }
 
 @app.route('/golfball-hit', methods=['POST'])
@@ -31,6 +34,10 @@ def golfball_hit():
         latest_metrics["projected_yardage"] = projected_yardage
         latest_metrics["projected_zone"] = projected_zone
         latest_metrics["total_balls_hit"] += 1  # Increment the total balls hit metric
+
+        # Increment the count for the respective zone
+        zone_metric_name = f"count_zone_{projected_zone}"
+        latest_metrics[zone_metric_name] += 1
         
         return jsonify({"status": "success"}), 200
     except Exception as e:
@@ -51,6 +58,9 @@ def clear_data():
     latest_metrics["projected_yardage"] = None
     latest_metrics["projected_zone"] = None
     latest_metrics["total_balls_hit"] = 0
+    latest_metrics["count_zone_1"] = 0
+    latest_metrics["count_zone_2"] = 0
+    latest_metrics["count_zone_3"] = 0
     return jsonify({"status": "success", "message": "All data has been cleared!"}), 200
 
 def calculate_projected_yardage(angle, velocity):

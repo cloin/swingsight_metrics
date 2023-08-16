@@ -36,7 +36,7 @@ To start the Flask application:
 python <path-to-flask-app-file>
 ```
 
-The application will start and listen on port 5000.
+The application will start and listen on port 5050.
 
 ## Datadog Integration
 
@@ -59,7 +59,7 @@ To set up the Datadog check:
 ## Endpoints
 
 - `POST /golfball-hit`: Accepts a JSON payload with `angle_of_departure` and `velocity_at_departure` to calculate and store the latest metrics.
-    - `curl -X POST http://127.0.0.1:5000/golfball-hit -H "Content-Type: application/json" -d '{"angle_of_departure": 45, "velocity_at_departure": 41}'`
+    - `curl -X POST http://127.0.0.1:5050/golfball-hit -H "Content-Type: application/json" -d '{"angle_of_departure": 45, "velocity_at_departure": 41}'`
 - `GET /metrics`: Metrics as JSON. Used with Datadog check.
 - `GET /swingsight`: Displays the latest metrics on a dashboard.
 - `GET /clear-data`: Clears all stored metrics.

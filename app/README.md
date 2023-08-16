@@ -38,7 +38,7 @@ SwingSight is a Flask-based application that calculates and tracks various golf-
 3. Run the application:
 
    ```bash
-   python app/app.py
+   python app.py
    ```
 
 4. The application will be accessible at `http://localhost:5050`.

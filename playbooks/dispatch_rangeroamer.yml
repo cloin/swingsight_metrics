@@ -11,8 +11,9 @@
         app_key: "{{ datadog_app_key }}"
         endpoint_url: "{{ datadog_query_endpoint }}"
         queries:
-          - 'avg:swingsight.projected_zone{*}'
-          - 'avg:swingsight.total_balls_hit{*}'
+          - 'avg:swingsight.count_zone_1{*}'
+          - 'avg:swingsight.count_zone_2{*}'
+          - 'avg:swingsight.count_zone_3{*}'
       register: metrics
 
     - name: Get zone with most balls

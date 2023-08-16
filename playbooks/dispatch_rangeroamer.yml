@@ -20,6 +20,11 @@
       ansible.builtin.set_fact:
         highest_metric: "{{ metrics.metrics_data | dictsort(by='value') | last }}"
 
-    - name: Debug the metric with the highest value
+    - name: Extract zone ID from the highest metric
+      ansible.builtin.set_fact:
+        zone_match: "{{ highest_metric | regex_search('zone_(\\d+)') }}"
+
+    - name: Dispatch RangeRoamer
       ansible.builtin.debug:
-        var: highest_metric
+        msg: "Dispatching RangeRoamer to {{ zone_match }}"
+      when: zone_match is not none

@@ -16,6 +16,10 @@
           - 'avg:swingsight.count_zone_3{*}'
       register: metrics
 
+    - name: Debug collected metrics
+      ansible.builtin.debug:
+        var: metrics
+
     - name: Get zone with most balls
       ansible.builtin.set_fact:
         highest_metric: "{{ metrics.metrics_data | dictsort(by='value') | last }}"

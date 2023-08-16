@@ -28,7 +28,7 @@
       condition: event.source == "Monitor Alert"
       action:
         debug:
- 
+
     - name: Catch all other events
       condition: event.id is defined
       action:

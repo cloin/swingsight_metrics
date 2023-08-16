@@ -3,9 +3,9 @@
   hosts: all
   sources:
     - cloin.datadog.dd_events:
-        app_key: "{{ dd_app_key }}"
-        api_key: "{{ dd_api_key }}"
-        api_url: "{{ dd_events_endpoint }}"
+        app_key: "{{ datadog_app_key }}"
+        api_key: "{{ datadog_api_key }}"
+        api_url: "{{ datadog_events_endpoint }}"
         interval: 10
 
   rules:

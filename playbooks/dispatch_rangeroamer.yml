@@ -1,7 +1,6 @@
 ---
 - name: Get metrics
-  hosts: localhost
-  connection: local
+  hosts: all
   gather_facts: false
   tasks:
 
@@ -32,3 +31,8 @@
       ansible.builtin.debug:
         msg: "Dispatching RangeRoamer to {{ zone_match }}"
       when: zone_match is not none
+
+    - name: Finish sweep
+      ansible.builtin.uri:
+        method: GET
+        url: http://127.0.0.1:5050/clear-data

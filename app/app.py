@@ -49,7 +49,14 @@ def dashboard():
 
 @app.route('/metrics', methods=['GET'])
 def metrics():
-    return jsonify(latest_metrics)
+    metrics_output = []
+
+    for key, value in latest_metrics.items():
+        if value is not None:
+            metrics_output.append(f"{key} {value}")
+
+    return '\n'.join(metrics_output), 200, {"Content-Type": "text/plain"}
+
 
 @app.route('/clear-data', methods=['GET'])
 def clear_data():
@@ -75,4 +82,4 @@ def calculate_projected_zone(yardage):
         return 3
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+    app.run(host='0.0.0.0', debug=True, port=5050)

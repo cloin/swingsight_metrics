@@ -7,6 +7,7 @@
     <link rel="icon" href="static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="static/styles.css">
     <meta http-equiv="refresh" content="5">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="content-container"> <!-- SwingSight Metrics container -->
@@ -19,6 +20,11 @@
             <li>Total Balls Hit: {{ total_balls_hit }}</li>
         </ul>
         <p><center>Drive Insights, One Swing at a Time!<center></p>
+        
+        <!-- Added input box and Hit button -->
+        <label for="hit_count">Number of Hits:</label>
+        <input type="number" id="hit_count">
+        <button onclick="hitBalls()">Hit</button>
     </div>
 
     <div class="flowchart-container"> <!-- Flowchart container -->
@@ -75,9 +81,30 @@
             }, 4000);
         }
 
-
         // Start the animation
         playAnimation();
+
+        // New function to send hits to the endpoint
+        function hitBalls() {
+            const hitCount = parseInt(document.getElementById("hit_count").value);
+            for (let i = 0; i < hitCount; i++) {
+                const angle = Math.floor(Math.random() * 90) + 1;
+                const velocity = Math.floor(Math.random() * 5000) + 1;
+
+                $.ajax({
+                    url: '/golfball-hit',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        angle_of_departure: angle,
+                        velocity_at_departure: velocity
+                    }),
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
+            }
+        }
     </script>
 
 </body>

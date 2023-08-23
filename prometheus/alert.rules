@@ -1,0 +1,10 @@
+groups:
+- name: Golf ball counter
+  rules:
+  - alert: Golf ball alert
+    expr: total_balls_hit > 10
+    for: 10s
+    labels:
+      severity: page
+    annotations:
+      summary: "total_balls_hit exceeds 10 - dispatch RangeRoamer"

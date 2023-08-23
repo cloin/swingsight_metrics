@@ -12,6 +12,17 @@ services:
     ports:
       - 9090:9090
 
+  
+  alertmanager:
+    image: docker.io/prom/alertmanager:latest
+    privileged: true
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+
   grafana:
     image: docker.io/grafana/grafana:latest
     volumes:

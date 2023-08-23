@@ -43,7 +43,7 @@ def golfball_hit():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
 
-@app.route('/swingsight', methods=['GET'])
+@app.route('/', methods=['GET'])
 def dashboard():
     return render_template('swingsight_dashboard.html', **latest_metrics)
 

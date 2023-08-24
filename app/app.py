@@ -51,11 +51,21 @@ def dashboard():
 def metrics():
     metrics_output = []
 
+    metrics_output.append("# TYPE angle_of_departure gauge")
+    metrics_output.append("# TYPE velocity_at_departure gauge")
+    metrics_output.append("# TYPE projected_yardage gauge")
+    metrics_output.append("# TYPE projected_zone gauge")
+    metrics_output.append("# TYPE total_balls_hit counter")
+    metrics_output.append("# TYPE count_zone_1 counter")
+    metrics_output.append("# TYPE count_zone_2 counter")
+    metrics_output.append("# TYPE count_zone_3 counter")
+
     for key, value in latest_metrics.items():
         if value is not None:
             metrics_output.append(f"{key} {value}")
 
     return '\n'.join(metrics_output), 200, {"Content-Type": "text/plain"}
+
 
 
 @app.route('/clear-data', methods=['GET'])

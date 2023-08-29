@@ -1,66 +1,35 @@
 ---
-- name: Query Prometheus for multiple metrics
+- name: Dispatch RangeRoamer
   hosts: localhost
+  connection: local
+  gather_facts: false
+
   tasks:
-    - name: Query count_zone_1
-      uri:
-        url: "http://prometheus:9090/api/v1/query?query=count_zone_1"
-        method: GET
-        return_content: yes
-        body_format: json
-        validate_certs: no
-      register: count_zone_1_response
 
-    - name: Query count_zone_2
-      uri:
-        url: "http://prometheus:9090/api/v1/query?query=count_zone_2"
-        method: GET
-        return_content: yes
-        body_format: json
-        validate_certs: no
-      register: count_zone_2_response
+    - name: Fetch zone metrics
+      cloin.prometheus.query:
+        prometheus_url: 'http://prometheus:9090'
+        queries:
+          - 'count_zone_1'
+          - 'count_zone_2'
+          - 'count_zone_3'
+      register: metrics
 
-    - name: Query count_zone_3
-      uri:
-        url: "http://prometheus:9090/api/v1/query?query=count_zone_3"
-        method: GET
-        return_content: yes
-        body_format: json
-        validate_certs: no
-      register: count_zone_3_response
+    - name: Debug collected metrics
+      ansible.builtin.debug:
+        var: metrics
 
-    - name: Extract and display metric values
-      debug:
-        msg:
-          - "count_zone_1 value: {{ count_zone_1_response.json.data.result[0].value[1] }}"
-          - "count_zone_2 value: {{ count_zone_2_response.json.data.result[0].value[1] }}"
-          - "count_zone_3 value: {{ count_zone_3_response.json.data.result[0].value[1] }}"
+    - name: Get zone with most balls
+      ansible.builtin.set_fact:
+        highest_metric: "{{ metrics.metrics_data | dictsort(by='value') | last }}"
 
-    - name: Store metrics and their values
-      set_fact:
-        metrics_values:
-          - name: "count_zone_1"
-            value: "{{ count_zone_1_response.json.data.result[0].value[1] | float }}"
-          - name: "count_zone_2"
-            value: "{{ count_zone_2_response.json.data.result[0].value[1] | float }}"
-          - name: "count_zone_3"
-            value: "{{ count_zone_3_response.json.data.result[0].value[1] | float }}"
-
-    - name: Sort metrics based on their values
-      set_fact:
-        sorted_metrics: "{{ metrics_values | sort(attribute='value', reverse=true) }}"
-
-    - name: Debug sorted metrics
-      debug:
-        var: sorted_metrics
-
-    - name: Display metric with the greatest value
-      debug:
-        msg: "The metric with the greatest value is {{ sorted_metrics[0].name }} with a value of {{ sorted_metrics[0].value }}"
+    - name: Extract zone ID from the highest metric
+      ansible.builtin.set_fact:
+        zone_match: "{{ highest_metric | regex_search('zone_(\\d+)') }}"
 
     - name: Dispatch RangeRoamer
       ansible.builtin.debug:
-        msg: "Dispatching RangeRoamer to {{ sorted_metrics[0].name }}"
+        msg: "Dispatching RangeRoamer to {{ zone_match }}"
       when: zone_match is not none
 
     - name: Finish sweep

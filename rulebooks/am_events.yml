@@ -11,6 +11,15 @@
         skip_original_data: true
 
   rules:
+
+    - name: Dispatch RangeRoamer
+      condition: |
+        event.alert.labels.alertname == "Golf ball alert" AND
+        event.alert.labels.job == "swingsight_app" AND
+        event.alert.status == "firing"
+      action:
+        debug:
+
     - name: Capture all other events from this source
       condition: event.alert is defined
       action:

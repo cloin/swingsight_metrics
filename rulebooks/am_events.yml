@@ -14,8 +14,8 @@
 
     - name: Dispatch RangeRoamer
       condition: |
-        event.alert.labels.alertname == "Golf ball alert" AND
-        event.alert.labels.job == "swingsight_app" AND
+        event.alert.labels.alertname == "Golf ball alert" and
+        event.alert.labels.job == "swingsight_app" and
         event.alert.status == "firing"
       action:
         debug:

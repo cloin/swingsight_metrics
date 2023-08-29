@@ -53,6 +53,7 @@ services:
       - alertmanager
     volumes:
       - ../rulebooks:/rulebooks
+      - ../playbooks:/playbooks
     command: >
       ansible-rulebook
       --rulebook /rulebooks/am_events.yml

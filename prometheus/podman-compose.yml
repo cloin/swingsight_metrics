@@ -43,3 +43,18 @@ services:
       dockerfile: ContainerFile
     ports:
       - "5050:5050"
+
+  ansible-rulebook:
+    build:
+      dockerfile: ./ansible-rulebook/Containerfile
+    container_name: ansible-rulebook
+    restart: unless-stopped
+    depends_on:
+      - alertmanager
+    volumes:
+      - ../rulebooks:/rulebooks
+    command: >
+      ansible-rulebook
+      --rulebook /rulebooks/am_events.yml
+      --inventory /rulebooks/inventory.yml
+      --verbose

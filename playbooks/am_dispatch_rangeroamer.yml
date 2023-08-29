@@ -1,0 +1,69 @@
+---
+- name: Query Prometheus for multiple metrics
+  hosts: localhost
+  tasks:
+    - name: Query count_zone_1
+      uri:
+        url: "http://prometheus:9090/api/v1/query?query=count_zone_1"
+        method: GET
+        return_content: yes
+        body_format: json
+        validate_certs: no
+      register: count_zone_1_response
+
+    - name: Query count_zone_2
+      uri:
+        url: "http://prometheus:9090/api/v1/query?query=count_zone_2"
+        method: GET
+        return_content: yes
+        body_format: json
+        validate_certs: no
+      register: count_zone_2_response
+
+    - name: Query count_zone_3
+      uri:
+        url: "http://prometheus:9090/api/v1/query?query=count_zone_3"
+        method: GET
+        return_content: yes
+        body_format: json
+        validate_certs: no
+      register: count_zone_3_response
+
+    - name: Extract and display metric values
+      debug:
+        msg:
+          - "count_zone_1 value: {{ count_zone_1_response.json.data.result[0].value[1] }}"
+          - "count_zone_2 value: {{ count_zone_2_response.json.data.result[0].value[1] }}"
+          - "count_zone_3 value: {{ count_zone_3_response.json.data.result[0].value[1] }}"
+
+    - name: Store metrics and their values
+      set_fact:
+        metrics_values:
+          - name: "count_zone_1"
+            value: "{{ count_zone_1_response.json.data.result[0].value[1] | float }}"
+          - name: "count_zone_2"
+            value: "{{ count_zone_2_response.json.data.result[0].value[1] | float }}"
+          - name: "count_zone_3"
+            value: "{{ count_zone_3_response.json.data.result[0].value[1] | float }}"
+
+    - name: Sort metrics based on their values
+      set_fact:
+        sorted_metrics: "{{ metrics_values | sort(attribute='value', reverse=true) }}"
+
+    - name: Debug sorted metrics
+      debug:
+        var: sorted_metrics
+
+    - name: Display metric with the greatest value
+      debug:
+        msg: "The metric with the greatest value is {{ sorted_metrics[0].name }} with a value of {{ sorted_metrics[0].value }}"
+
+    - name: Dispatch RangeRoamer
+      ansible.builtin.debug:
+        msg: "Dispatching RangeRoamer to {{ sorted_metrics[0].name }}"
+      when: zone_match is not none
+
+    - name: Finish sweep
+      ansible.builtin.uri:
+        method: GET
+        url: http://swingsight:5050/clear-data

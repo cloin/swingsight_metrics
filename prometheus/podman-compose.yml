@@ -1,0 +1,61 @@
+version: '3'
+services:
+  prometheus:
+    image: docker.io/prom/prometheus:latest
+    user: root
+    privileged: true
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alert.rules:/etc/prometheus/alert.rules
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+
+  
+  alertmanager:
+    image: docker.io/prom/alertmanager:latest
+    privileged: true
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+
+  grafana:
+    image: docker.io/grafana/grafana:latest
+    volumes:
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_BASIC_ENABLED=false
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/swingsight.json
+      - GF_DASHBOARDS_PROVISIONING=/etc/grafana/provisioning/dashboards
+
+  swingsight:
+    build:
+      context: ../app
+      dockerfile: ContainerFile
+    ports:
+      - "5050:5050"
+
+  ansible-rulebook:
+    build:
+      dockerfile: ./ansible-rulebook/Containerfile
+    container_name: ansible-rulebook
+    restart: unless-stopped
+    depends_on:
+      - alertmanager
+    volumes:
+      - ../rulebooks:/rulebooks
+      - ../playbooks:/playbooks
+    command: >
+      ansible-rulebook
+      --rulebook /rulebooks/am_events.yml
+      --inventory /rulebooks/inventory.yml
+      --verbose

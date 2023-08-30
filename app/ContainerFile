@@ -1,0 +1,20 @@
+# Use an official Python runtime as the base image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the contents of the /app directory into the container at /app
+COPY . .
+
+# Install the required Python packages
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Make port 5050 available to the world outside this container
+EXPOSE 5050
+
+# Define environment variable to tell Flask to run in production mode
+ENV FLASK_ENV=production
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]

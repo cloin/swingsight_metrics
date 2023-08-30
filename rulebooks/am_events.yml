@@ -9,6 +9,9 @@
         data_host_path:
         data_path_separator: .
         skip_original_data: true
+      filters:
+        - cloin.eda.poster:
+            webhook_url:
 
   rules:
 

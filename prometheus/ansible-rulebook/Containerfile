@@ -1,4 +1,4 @@
 FROM quay.io/ansible/ansible-rulebook:v1.0.2
 
 RUN pip install aiohttp requests
-RUN ansible-galaxy collection install ansible.eda cloin.prometheus
+RUN ansible-galaxy collection install ansible.eda cloin.prometheus cloin.eda

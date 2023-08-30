@@ -88,8 +88,8 @@
         function hitBalls() {
             const hitCount = parseInt(document.getElementById("hit_count").value);
             for (let i = 0; i < hitCount; i++) {
-                const angle = Math.floor(Math.random() * 90) + 1;
-                const velocity = Math.floor(Math.random() * 5000) + 1;
+                const angle = Math.floor(Math.random() * 50) + 1;
+                const velocity = Math.floor(Math.random() * 2000) + 1;
 
                 $.ajax({
                     url: '/golfball-hit',

@@ -83,7 +83,7 @@ def calculate_projected_yardage(angle, velocity):
 def calculate_projected_zone(yardage):
     if yardage < 75:
         return 1
-    elif yardage >= 75 and yardage < 200:
+    elif yardage >= 75 and yardage < 280:
         return 2
     else:
         return 3

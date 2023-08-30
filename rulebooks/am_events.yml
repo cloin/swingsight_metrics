@@ -21,7 +21,10 @@
         run_playbook:
           name: /playbooks/am_dispatch_rangeroamer.yml
 
-    - name: Capture all other events from this source
-      condition: event.alert is defined
+    - name: RangeRoamer completed
+      condition: |
+        event.alert.labels.alertname == "Golf ball alert" and
+        event.alert.labels.job == "swingsight_app" and
+        event.alert.status == "resolved"
       action:
         debug:

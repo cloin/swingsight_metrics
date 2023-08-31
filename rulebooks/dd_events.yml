@@ -15,14 +15,20 @@
         debug:
 
     - name: SwingSight - Dispatch RangeRoamer
-      condition: event.source == "Monitor Alert" and event.title is search("swingsight",ignorecase=true) and event.title is search("Triggered",ignorecase=true)
+      condition: |
+        event.source == "Monitor Alert" and
+        event.title is search("swingsight",ignorecase=true) and
+        event.title is search("Triggered",ignorecase=true)
       action:
         run_job_template:
           organization: Default
           name: Dispatch RangeRoamer
 
     - name: SwingSight - Monitor resolved
-      condition: event.source == "Monitor Alert" and event.title is search("swingsight",ignorecase=true) and event.title is search("Recovered",ignorecase=true)
+      condition: |
+        event.source == "Monitor Alert" and
+        event.title is search("swingsight",ignorecase=true) and
+        event.title is search("Recovered",ignorecase=true)
       action:
         debug:
 

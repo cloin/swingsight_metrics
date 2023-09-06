@@ -4,6 +4,10 @@
   gather_facts: false
   tasks:
 
+    - name: Debug event received
+      ansible.builtin.debug:
+        var: ansible_eda
+
     - name: Fetch Datadog range zone metrics
       cloin.datadog.datadog_query:
         api_key: "{{ datadog_api_key }}"

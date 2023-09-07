@@ -38,6 +38,6 @@
         debug:
 
     - name: Catch all other events
-      condition: event.id is defined
+      condition: event.source is defined
       action:
         debug:

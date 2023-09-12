@@ -12,7 +12,6 @@ services:
     ports:
       - 9090:9090
 
-  
   alertmanager:
     image: docker.io/prom/alertmanager:latest
     privileged: true
@@ -42,7 +41,9 @@ services:
       context: ../app
       dockerfile: ContainerFile
     ports:
-      - "5050:5050"
+      - "443:443"
+    volumes:
+      - ./certs:/certs:ro
 
   ansible-rulebook:
     build:

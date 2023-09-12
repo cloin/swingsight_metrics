@@ -1,3 +1,4 @@
+import ssl
 from flask import Flask, request, jsonify, render_template
 
 app = Flask(__name__)
@@ -89,4 +90,5 @@ def calculate_projected_zone(yardage):
         return 3
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True, port=5050)
+    context = ('/certs/shortlived-cert.pem', '/certs/shortlived-key.pem')
+    app.run(host='0.0.0.0', port=443, debug=True, ssl_context=context)

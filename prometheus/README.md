@@ -13,6 +13,7 @@ This repository provides a Podman compose stack for setting up a monitoring and 
   - [Swingsight](#swingsight)
   - [Ansible-Rulebook](#ansible-rulebook)
 - [Configuration](#configuration)
+- [Respond to SSL certificate expiration](#respond-to-ssl-certificate-expiration)
 - [Troubleshooting](#troubleshooting)
 
 ## Requirements
@@ -85,6 +86,58 @@ Runs Ansible rulebook against alertmanager using new alerts as events to execute
 - **Grafana**: Datasources and dashboards can be added in `./grafana/datasources` and `./grafana/dashboards` respectively.
 - **Swingsight**: Modify the `ContainerFile` in the `../app` directory for custom settings.
 - **ansible-rulebook**: Customize rulebooks in `../rulebooks` and playbooks in `../playbooks`.
+
+## Respond to SSL certificate expiration
+
+### Prometheus Configuration (`prometheus.yml`)
+
+1. **Scrape Configuration for Swingsight App**: Prometheus is configured to scrape metrics directly from the Swingsight app at port 5050 using HTTPS. This is specified under `scrape_configs` with the job name `swingsight_app`.
+
+    ```yaml
+    scrape_configs:
+      - job_name: 'swingsight_app'
+        scheme: https
+        ...
+        static_configs:
+          - targets: ['swingsight:5050']
+    ```
+
+2. **Scrape Configuration for Blackbox Exporter**: Another `scrape_configs` entry is set up to interact with Blackbox Exporter. Prometheus will request Blackbox Exporter to perform SSL certificate checks on the Swingsight app, and then scrape the metrics from Blackbox Exporter.
+
+    ```yaml
+    scrape_configs:
+      - job_name: 'blackbox'
+        ...
+        static_configs:
+          - targets:
+            - 'swingsight:5050'
+    ```
+
+3. **Alerting**: Prometheus is configured to send alerts to Alertmanager. If any of the metrics cross a certain threshold (defined in `alert.rules`), an alert will be triggered.
+
+### Blackbox Exporter Configuration (`blackbox.yml`)
+
+1. **SSL Expiry Module**: In the Blackbox Exporter configuration, a module called `ssl_expiry` is defined to check SSL certificate expiration metrics.
+
+    ```yaml
+    modules:
+      ssl_expiry:
+        prober: tcp
+        tcp:
+          tls: true
+          ...
+    ```
+
+### How They Work Together
+
+1. **Metric Scraping**: When Prometheus executes its scrape based on the interval, it asks Blackbox Exporter to probe the Swingsight app using the `ssl_expiry` module, which checks SSL certificate expiration.
+  
+2. **Probing**: Blackbox Exporter performs the SSL expiry check on the Swingsight app and exposes the metrics at its own endpoint (`blackbox_exporter:9115`).
+
+3. **Metric Collection**: Prometheus collects these metrics from Blackbox Exporter and stores them. If the SSL metrics cross certain thresholds defined in the alerting rules, Prometheus triggers an alert and sends it to Alertmanager, as specified in the configuration.
+
+4. **Alerting**: If an alert is triggered, Prometheus sends it to Alertmanager (`alertmanager:9093`), which can then notify via the configured alerting channels.
+
 
 ## Troubleshooting
 

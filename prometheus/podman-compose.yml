@@ -12,6 +12,13 @@ services:
     ports:
       - 9090:9090
 
+  blackbox_exporter:
+    image: prom/blackbox-exporter:latest
+    volumes:
+      - ./blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    ports:
+      - "9115:9115"
+
   alertmanager:
     image: docker.io/prom/alertmanager:latest
     privileged: true
@@ -41,7 +48,7 @@ services:
       context: ../app
       dockerfile: ContainerFile
     ports:
-      - "443:443"
+      - "5050:5050"
     volumes:
       - ./certs:/certs:ro
 

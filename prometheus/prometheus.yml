@@ -9,8 +9,26 @@ alerting:
 
 scrape_configs:
   - job_name: 'swingsight_app'
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
     static_configs:
       - targets: ['swingsight:5050']
+
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [ssl_expiry]
+    static_configs:
+      - targets:
+        - 'swingsight:5050'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox_exporter:9115
 
 rule_files:
   - alert.rules

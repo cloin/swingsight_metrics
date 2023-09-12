@@ -1,0 +1,14 @@
+modules:
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_status_codes: []
+      method: GET
+  ssl_expiry:
+    prober: tcp
+    tcp:
+      tls: true
+      tls_config:
+        insecure_skip_verify: true
+

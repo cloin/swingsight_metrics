@@ -91,4 +91,4 @@ def calculate_projected_zone(yardage):
 
 if __name__ == "__main__":
     context = ('/certs/shortlived-cert.pem', '/certs/shortlived-key.pem')
-    app.run(host='0.0.0.0', port=443, debug=True, ssl_context=context)
+    app.run(host='0.0.0.0', port=5050, debug=True, ssl_context=context)

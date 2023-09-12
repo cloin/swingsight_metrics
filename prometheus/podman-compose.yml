@@ -49,8 +49,8 @@ services:
       dockerfile: ContainerFile
     ports:
       - "5050:5050"
-    volumes:
-      - ./certs:/certs:ro
+    # volumes:
+    #   - ./certs:/certs:ro
 
   ansible-rulebook:
     build:

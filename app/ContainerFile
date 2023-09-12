@@ -4,6 +4,17 @@ FROM python:3.9-slim
 # Set the working directory in the container
 WORKDIR /app
 
+# Create a directory to store the certificates
+RUN mkdir /certs
+
+# Generate self-signed certificate
+RUN openssl req -x509 -newkey rsa:4096 \
+    -keyout /certs/shortlived-key.pem \
+    -out /certs/shortlived-cert.pem \
+    -days 1 \
+    -subj "/C=US/ST=NC/L=HollySprings/O=SwingSight/OU=Org/CN=www.example.com" \
+    -nodes
+
 # Copy the contents of the /app directory into the container at /app
 COPY . .
 

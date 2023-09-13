@@ -8,3 +8,13 @@ groups:
       severity: page
     annotations:
       summary: "total_balls_hit exceeds 10 - dispatch RangeRoamer"
+
+- name: SwingSight SSL cert
+  rules:
+  - alert: SSL expiry
+    expr: probe_ssl_earliest_cert_expiry - time() < 86100
+    for: 1s
+    labels:
+      severity: page
+    annotations:
+      summary: "SwingSight SSL cert expiry < 24 hrs"

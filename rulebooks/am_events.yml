@@ -31,3 +31,11 @@
         event.alert.status == "resolved"
       action:
         debug:
+
+    - name: SSL cert expiring
+      condition: |
+        event.alert.labels.alertname == "SSL expiry" and
+        event.alert.labels.job == "blackbox" and
+        event.alert.status == "firing"
+      action:
+        debug:

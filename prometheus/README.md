@@ -101,7 +101,7 @@ For any issues or troubleshooting, you can:
 
 ## Demonstration resources
 
-[**Example Slide deck**](../app/static/swingsight_prometheus_slide_deck.pdf)
+[**Example slide deck**](../app/static/swingsight_prometheus_slide_deck.pdf)
 
 ### Prometheus Demo video
 

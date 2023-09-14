@@ -1,6 +1,6 @@
 # Monitoring and Automation Stack with Podman Compose
 
-![swinsight_demo_overview]
+![swinsight_demo_overview](../app/static/swingsights_demo_overview.png)
 
 This repository provides a Podman compose stack for setting up a monitoring and automation stack consisting of Prometheus, Alertmanager, Grafana, SwingSight Metrics and the Event-Driven Ansible CLI `ansible-rulebook`
 

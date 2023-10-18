@@ -1,0 +1,38 @@
+---
+- name: Dispatch RangeRoamer
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: Fetch zone metrics
+      cloin.prometheus.query:
+        prometheus_url: 'http://54.166.173.42:9090'
+        queries:
+          - 'count_zone_1'
+          - 'count_zone_2'
+          - 'count_zone_3'
+      register: metrics
+
+    - name: Debug collected metrics
+      ansible.builtin.debug:
+        var: metrics
+
+    - name: Get zone with most balls
+      ansible.builtin.set_fact:
+        highest_metric: "{{ metrics.metrics_data | dictsort(by='value') | last }}"
+
+    - name: Extract zone ID from the highest metric
+      ansible.builtin.set_fact:
+        zone_match: "{{ highest_metric | regex_search('zone_(\\d+)') }}"
+
+    - name: Dispatch RangeRoamer
+      ansible.builtin.debug:
+        msg: "Dispatching RangeRoamer to {{ zone_match }}"
+      when: zone_match is not none
+
+    - name: Finish sweep
+      ansible.builtin.uri:
+        method: GET
+        url: http://54.166.173.42:5050/clear-data
